@@ -13,22 +13,31 @@ def ler_mapa_xlsx(arquivo_xlsx):
     return mapa
 
 # Função para desenhar o mapa na tela
+# Função para desenhar o mapa na tela com bordas
 def desenhar_mapa(screen, mapa, tamanho_bloco):
     # Cores para cada tipo de terreno
     cores = {
         1: (128, 128, 128),  # Asfalto (Cinza Escuro)
         3: (139, 69, 19),    # Terra (Marrom)
-        5: (50, 205, 50),      # Grama (Verde)
-        10: (211, 211, 211),  # Paralelepípedo (Cinza Claro)
-        0: (210, 105, 30)     # Edifícios (Laranja)
+        5: (50, 205, 50),    # Grama (Verde)
+        10: (211, 211, 211), # Paralelepípedo (Cinza Claro)
+        0: (210, 105, 30)    # Edifícios (Laranja)
     }
+
+    cor_borda = (230, 238, 225)  # Cor da borda (preto)
+    espessura_borda = 1     # Espessura da borda
 
     for i, linha in enumerate(mapa):
         for j, terreno in enumerate(linha):
             # Definir a cor de acordo com o tipo de terreno
             cor = cores.get(terreno, (255, 255, 255))  # Branco como cor padrão
-            # Desenhar o retângulo correspondente ao terreno
+
+            # Desenhar o retângulo correspondente ao terreno (preencher)
             pygame.draw.rect(screen, cor, pygame.Rect(j * tamanho_bloco, i * tamanho_bloco, tamanho_bloco, tamanho_bloco))
+
+            # Desenhar a borda ao redor do quadrado
+            pygame.draw.rect(screen, cor_borda, pygame.Rect(j * tamanho_bloco, i * tamanho_bloco, tamanho_bloco, tamanho_bloco), espessura_borda)
+
 
 # Função principal do jogo
 def main():
