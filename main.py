@@ -1,6 +1,7 @@
 import openpyxl
 import pygame
 import time
+import random
 
 # Função para ler o arquivo .xlsx e transformar em matriz
 def ler_mapa_xlsx(arquivo_xlsx):
@@ -38,18 +39,15 @@ def desenhar_mapa(screen, mapa, tamanho_bloco):
             # Desenhar a borda ao redor do quadrado
             pygame.draw.rect(screen, cor_borda, pygame.Rect(j * tamanho_bloco, i * tamanho_bloco, tamanho_bloco, tamanho_bloco), espessura_borda)
 
-# Função para desenhar a Barbie (círculo) em uma posição
-def desenhar_barbie(screen, posicao, tamanho_bloco):
-    # Cor da Barbie (círculo)
-    cor_barbie = (255, 0, 123)  # Rosa
-
+# Função para desenhar personagens (círculos) em uma posição
+def desenhar_personagem(screen, posicao, tamanho_bloco, cor):
     # Calcular o centro do quadrado onde o círculo será desenhado
     centro_x = posicao[0] * tamanho_bloco + tamanho_bloco // 2
     centro_y = posicao[1] * tamanho_bloco + tamanho_bloco // 2
 
-    # Desenhar um círculo menor que o quadrado (representa a Barbie)
+    # Desenhar um círculo menor que o quadrado (representa o personagem)
     raio = tamanho_bloco // 3
-    pygame.draw.circle(screen, cor_barbie, (centro_x, centro_y), raio)
+    pygame.draw.circle(screen, cor, (centro_x, centro_y), raio)
 
 # Função para exibir mensagem de erro
 def exibir_mensagem(screen, mensagem, largura, altura):
@@ -69,6 +67,12 @@ def exibir_mensagem(screen, mensagem, largura, altura):
     screen.blit(texto, (largura // 2 - texto.get_width() // 2, altura // 2 - texto.get_height() // 2))
 
 
+# Função para sortear aleatoriamente 3 amigos
+def sortear_amigos(amigos):
+    amigos_sorteados = random.sample(list(amigos.keys()), 3)
+    print(f"Amigos sorteados: {amigos_sorteados}")
+    return amigos_sorteados
+
 # Função principal do jogo
 def main():
     # Ler o mapa do arquivo .xlsx
@@ -86,8 +90,25 @@ def main():
 
     pygame.display.set_caption('Mapa do Mundo da Barbie')
 
-    # Definir a posição inicial fixa da Barbie
+    # Definir a posição inicial fixa da Barbie e dos amigos
     posicao_barbie = (19, 23)
+    
+    amigos = {
+        "amigo_1": (13, 5),
+        "amigo_2": (9, 10),
+        "amigo_3": (35, 6),
+        "amigo_4": (15, 36),
+        "amigo_5": (37, 37),
+        "amigo_6": (38, 24),
+    }
+
+    # Sortear 3 amigos
+    amigos_sorteados = sortear_amigos(amigos)
+
+    # Cores para a Barbie e os amigos
+    cor_barbie = (255, 0, 123)  # Rosa
+    cor_amigo = (48, 45, 100)   # Azul Claro
+
     mensagem_erro = None
     tempo_mensagem = 0
 
@@ -124,7 +145,11 @@ def main():
         desenhar_mapa(screen, mapa, tamanho_bloco)
 
         # Desenhar a Barbie na posição fixa
-        desenhar_barbie(screen, posicao_barbie, tamanho_bloco)
+        desenhar_personagem(screen, posicao_barbie, tamanho_bloco, cor_barbie)
+
+        # Desenhar os amigos nas posições fixas
+        for amigo, posicao in amigos.items():
+            desenhar_personagem(screen, posicao, tamanho_bloco, cor_amigo)
 
         # Exibir a mensagem de erro se existir e se tiver passado menos de 2 segundos
         if mensagem_erro and time.time() - tempo_mensagem < 2:
