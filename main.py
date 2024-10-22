@@ -2,6 +2,7 @@ import openpyxl
 import pygame
 import time
 import random
+import sys  # Importar sys para encerrar o programa
 
 # Função para ler o arquivo .xlsx e transformar em matriz
 def ler_mapa_xlsx(arquivo_xlsx):
@@ -66,6 +67,11 @@ def exibir_mensagem(screen, mensagem, largura, altura):
     # Desenhar o texto no centro do retângulo
     screen.blit(texto, (largura // 2 - texto.get_width() // 2, altura // 2 - texto.get_height() // 2))
 
+# Função para verificar se a posição é válida (não é um edifício)
+def verificar_posicao_valida(mapa, posicao, nome_personagem):
+    if mapa[posicao[1]][posicao[0]] == 0:  # Edifícios são representados por 0
+        print(f"Erro: {nome_personagem} foi colocado em um edifício. Posição: {posicao}")
+        sys.exit(1)  # Encerrar o programa com erro
 
 # Função para sortear aleatoriamente 3 amigos
 def sortear_amigos(amigos):
@@ -102,8 +108,15 @@ def main():
         "amigo_6": (38, 24),
     }
 
+    # Verificar se a posição da Barbie é válida
+    verificar_posicao_valida(mapa, posicao_barbie, "Barbie")
+
     # Sortear 3 amigos
     amigos_sorteados = sortear_amigos(amigos)
+
+    # Verificar se a posição dos amigos sorteados é válida
+    for amigo in amigos_sorteados:
+        verificar_posicao_valida(mapa, amigos[amigo], amigo)
 
     # Cores para a Barbie e os amigos
     cor_barbie = (255, 0, 123)  # Rosa
