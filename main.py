@@ -18,10 +18,10 @@ def desenhar_mapa(screen, mapa, tamanho_bloco):
     # Cores para cada tipo de terreno
     cores = {
         1: (128, 128, 128),  # Asfalto (Cinza Escuro)
-        3: (139, 69, 19),    # Terra (Marrom)
+        3: (190, 132, 85),    # Terra (Marrom)
         5: (50, 205, 50),    # Grama (Verde)
         10: (211, 211, 211), # Paralelepípedo (Cinza Claro)
-        0: (210, 105, 30)    # Edifícios (Laranja)
+        0: (255, 184, 103)    # Edifícios (Laranja)
     }
 
     cor_borda = (230, 238, 225)  # Cor da borda (preto)
