@@ -124,6 +124,62 @@ def mover_barbie(mapa, posicao_barbie, amigos, amigos_sorteados):
 
     return caminho_total, custo_total
 
+# Função para desenhar o título no topo da tela com uma fonte estilizada e margem superior
+def desenhar_titulo(screen, largura, titulo, margem_topo):
+    # Carregar uma fonte personalizada e definir o tamanho
+    fonte_titulo = pygame.font.Font("DollieScript_PersonalUse.ttf", 56)  # Ajuste o tamanho conforme necessário
+    texto_titulo = fonte_titulo.render(titulo, True, (255, 0, 132))  # Cor rosa (255, 0, 132) para o título
+    texto_titulo_rect = texto_titulo.get_rect(center=(largura // 2, margem_topo))
+    screen.blit(texto_titulo, texto_titulo_rect)
+
+# Função para exibir a tela inicial com o botão "Iniciar" estilizado e o título
+def tela_inicial(screen, largura, altura):
+    # Preencher a tela com branco
+    screen.fill((255, 255, 255))
+
+    # Carregar imagem de fundo e ajustar para manter proporção
+    background = pygame.image.load("barbie-tela-inicial.png")
+    img_width, img_height = background.get_size()
+
+    # Calcular escala mantendo proporção
+    scale = min(largura / img_width, altura / img_height)
+    new_width = int(img_width * scale)
+    new_height = int(img_height * scale)
+    
+    # Redimensionar e centralizar a imagem de fundo
+    background = pygame.transform.scale(background, (new_width, new_height))
+    background_x = (largura - new_width) // 2
+    background_y = (altura - new_height) // 2
+    screen.blit(background, (background_x, background_y))
+    
+    # Desenhar o título com margem superior
+    margem_topo_titulo = 80  # Ajuste a margem superior para o título
+    desenhar_titulo(screen, largura, "Barbie em busca de seus amigos", margem_topo_titulo)
+
+    # Estilização do botão "Iniciar"
+    fonte_botao = pygame.font.Font("DollieScript_PersonalUse.ttf", 36)  # Fonte personalizada para o botão
+    texto_botao = fonte_botao.render("Iniciar", True, (255, 255, 255))  # Texto branco para o botão
+    
+    margem_topo_botao = 290  # Ajuste a margem superior para o botão
+    button_rect = texto_botao.get_rect(center=(largura // 2, altura // 2 + margem_topo_botao))
+    
+    # Desenha o botão com bordas arredondadas e cor de fundo estilizada
+    pygame.draw.rect(screen, (255, 0, 132), button_rect.inflate(30, 20), border_radius=10)  # Cor rosa (255, 0, 132) para o botão
+    screen.blit(texto_botao, button_rect)
+    
+    pygame.display.flip()
+    
+    # Espera o usuário clicar no botão "Iniciar"
+    esperando = True
+    while esperando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if button_rect.collidepoint(event.pos):
+                    esperando = False
+
 # Função principal do jogo
 def main():
     arquivo = "matriz.xlsx"
@@ -135,6 +191,10 @@ def main():
     screen = pygame.display.set_mode((largura, altura))
     pygame.display.set_caption('Mapa do Mundo da Barbie')
 
+    # Exibir tela inicial
+    tela_inicial(screen, largura, altura)
+
+    # Configurações iniciais do jogo
     posicao_barbie = (19, 23)
     amigos = {
         "amigo_1": (13, 5),
