@@ -145,8 +145,10 @@ def main():
         "amigo_6": (38, 24),
     }
     amigos_sorteados = random.sample(list(amigos.keys()), 3)
+    
     cor_barbie = (255, 0, 123)
     cor_amigo = (48, 45, 100)
+    cor_amigo_sorteado = (181, 54, 45)  # Cor do amigo sorteado
     cor_percurso = (255, 0, 123)
 
     caminho_total, custo_total = mover_barbie(mapa, posicao_barbie, amigos, amigos_sorteados)
@@ -163,8 +165,13 @@ def main():
         screen.fill((0, 0, 0))
         desenhar_mapa(screen, mapa, tamanho_bloco)
         desenhar_personagem(screen, posicao_barbie, tamanho_bloco, cor_barbie)
+
+        # Desenha amigos com cor diferente se foram sorteados
         for amigo in amigos:
-            desenhar_personagem(screen, amigos[amigo], tamanho_bloco, cor_amigo)
+            if amigo in amigos_sorteados:
+                desenhar_personagem(screen, amigos[amigo], tamanho_bloco, cor_amigo_sorteado)
+            else:
+                desenhar_personagem(screen, amigos[amigo], tamanho_bloco, cor_amigo)
 
         if posicao_atual < len(caminho_total):
             pos = caminho_total[posicao_atual]
