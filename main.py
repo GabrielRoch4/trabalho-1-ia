@@ -127,7 +127,7 @@ def mover_barbie(mapa, posicao_barbie, amigos, amigos_sorteados):
 # Função para desenhar o título no topo da tela com uma fonte estilizada e margem superior
 def desenhar_titulo(screen, largura, titulo, margem_topo):
     # Carregar uma fonte personalizada e definir o tamanho
-    fonte_titulo = pygame.font.Font("DollieScript_PersonalUse.ttf", 56)  # Ajuste o tamanho conforme necessário
+    fonte_titulo = pygame.font.Font("DollieScript_PersonalUse.ttf", 52)  # Ajuste o tamanho conforme necessário
     texto_titulo = fonte_titulo.render(titulo, True, (255, 0, 132))  # Cor rosa (255, 0, 132) para o título
     texto_titulo_rect = texto_titulo.get_rect(center=(largura // 2, margem_topo))
     screen.blit(texto_titulo, texto_titulo_rect)
